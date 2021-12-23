@@ -1,0 +1,90 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define int              long long
+#define all(xs)          xs.begin(), xs.end()
+#define rall(xs)         xs.rbegin(), xs.rend()
+#define sz(x)            (int)((x).size())
+#define pb               push_back
+#define ppb              pop_back
+#define pf               push_front
+#define ppf              pop_front
+#define ff               first
+#define ss               second
+#define prec(n)          fixed<<setprecision(n)
+#define debug(x)         cout << (#x) << " is " << (x) << "\n"
+#define debug2(x, y)     cout << #x << "=" << x << "," << #y << "=" << y << "\n"
+#define debug3(x, y,z)   cout << #x << "=" << x << "," << #y << "=" << y << "," << #z << "=" << z << "\n"
+#define debug4(x, y,z,a) cout << #x << "=" << x << "," << #y << "=" << y << "," << #z << "=" << z <<" "<<#a << "=" << a << "\n"
+#define yes              cout<<"YES";
+#define no               cout<<"NO";
+#define ll               cout<<"\n";
+#define INF               2e18
+int gcd(int A,int B){    return (B == 0) ? A : gcd(B, A % B);}
+int lcm(int A,int B){    return A * B / gcd(A, B);}
+const int N=1e5+10;
+const int NN=1e9+10;
+const int mod = 1e9 + 7;
+
+void solve(){
+    int n; cin >> n;
+    int arr[n];
+    int present[n+1];
+    memset(present, 0, sizeof present);
+    bool minuscase = false;
+    for(int i = 0; i < n; i++){
+        cin >> arr[i];
+        present[arr[i]]++;
+    }
+    set<int> rem;
+    vector<int> have;
+    vector<int> ans(n+1);
+    int dp = 0;
+    for(int mex = 0; mex <= n; mex++){
+        if(minuscase){
+            cout<<"-1 ";
+            continue;
+        }
+        int sum = present[mex] + dp;
+        if(sz(rem)){
+            sum = -1;
+            minuscase = true;
+        }
+        cout<<sum<<" ";
+        if(!present[mex]){
+            rem.insert(mex);
+        }
+        else{
+            while(present[mex] >= 2){
+                have.pb(mex);
+                present[mex]--;
+            }
+        }
+        while(sz(rem) and sz(have)){
+            while(sz(have) >= 1 and have.back() > *rem.begin()){
+                have.ppb();
+            }
+            if(sz(have) == 0){
+                break;
+            }
+            dp += (*rem.begin() - have.back());
+            rem.erase(*rem.begin());
+            have.ppb();
+        }
+    }
+    ll;
+    return;
+}
+
+signed main(){
+    #ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+    #endif
+    ios_base::sync_with_stdio(false), cin.tie(NULL);
+    int t=1;
+    cin>>t;
+    for(int i=0;i<t;i++){
+        // cout<<"Case #"<<i+1<<": "; 
+       solve();
+    }
+}
